@@ -9,9 +9,9 @@ public class BaseSelectionPanel : MonoBehaviour
     [Header("References")]
     [SerializeField] private TMP_InputField _nameInput;
     [SerializeField] private TMP_Dropdown _classSelection;
-    [SerializeField] private TMP_InputField _healthInput;
-    [SerializeField] private TMP_InputField _manaInput;
-    [SerializeField] private TMP_InputField _levelInput;
+    [SerializeField] private SliderParameter _healthInput;
+    [SerializeField] private SliderParameter _manaInput;
+    [SerializeField] private SliderParameter _levelInput;
 
     [Header("Settings")]
     [SerializeField] private List<ClassSelectionInfo> _availableClasses;
@@ -21,7 +21,6 @@ public class BaseSelectionPanel : MonoBehaviour
     private void Start()
     {
         _classSelection.options = _availableClasses
-                .DistinctBy(info => info)
                 .Select(info => new TMP_Dropdown.OptionData(info.ClassId.ToString()))
                 .ToList();
         
@@ -34,13 +33,11 @@ public class BaseSelectionPanel : MonoBehaviour
         
         var classInfo = _availableClasses
                 .FirstOrDefault(info => info.ClassId.Equals(GetClassIdFromSelection)).Panel.GetClassData;
+
+        var baseAttributes = new BaseAttributesData(_healthInput.MaxValue, _manaInput.MaxValue);
+        var maxAttributes = new BaseAttributesData(_healthInput.BaseValue, _manaInput.BaseValue);
         
-        var attributes = new BaseAttributesData(
-            int.Parse(_healthInput.text),
-            int.Parse(_manaInput.text), 
-            int.Parse(_levelInput.text));
-        
-        return new CharacterData(bio, classInfo, attributes);
+        return new CharacterData(bio, classInfo, baseAttributes, maxAttributes);
     }
 
     public void SelectPanel()
