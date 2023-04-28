@@ -14,25 +14,45 @@ public class BaseSelectionPanel : MonoBehaviour
     [SerializeField] private TMP_InputField _levelInput;
 
     [Header("Settings")]
-    [SerializeField] private List<ClassId> _availableClasses;
+    [SerializeField] private List<ClassSelectionInfo> _availableClasses;
+
+    private ClassId GetClassIdFromSelection => Enum.Parse<ClassId>(_classSelection.captionText.text);
 
     private void Start()
     {
         _classSelection.options = _availableClasses
-                .DistinctBy(classId => classId)
-                .Select(classId => new TMP_Dropdown.OptionData(classId.ToString()))
+                .DistinctBy(info => info)
+                .Select(info => new TMP_Dropdown.OptionData(info.ClassId.ToString()))
                 .ToList();
+        
+        SelectPanel();
     }
 
     public CharacterData GetCharacterData()
     {
         var bio = new BioInfoData(_nameInput.text);
-        var classInfo = new BaseClassData(Enum.Parse<ClassId>(_classSelection.captionText.text));
+        
+        var classInfo = _availableClasses
+                .FirstOrDefault(info => info.ClassId.Equals(GetClassIdFromSelection)).Panel.GetClassData;
+        
         var attributes = new BaseAttributesData(
             int.Parse(_healthInput.text),
             int.Parse(_manaInput.text), 
             int.Parse(_levelInput.text));
         
         return new CharacterData(bio, classInfo, attributes);
+    }
+
+    public void SelectPanel()
+    {
+        _availableClasses.ForEach(info => info.Panel.gameObject.SetActive(false));
+        _availableClasses[_classSelection.value].Panel.gameObject.SetActive(true);
+    }
+    
+    [System.Serializable]
+    private class ClassSelectionInfo
+    {
+        public ClassId ClassId;
+        public AbstractClassDataPanel Panel;
     }
 }
