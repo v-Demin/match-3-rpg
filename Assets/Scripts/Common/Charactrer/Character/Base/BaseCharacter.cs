@@ -1,4 +1,4 @@
-public abstract class BaseCharacter<T> : AbstractCharacter where T : BaseEventProvider
+public abstract class BaseCharacter<T> : AbstractCharacter where T : AbstractEventProvider
 {
     public T EventProvider;
 
