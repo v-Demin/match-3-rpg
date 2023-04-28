@@ -1,8 +1,8 @@
 public class CharacterData
 {
-    public BioInfoData Bio;
-    public BaseClassData ClassData;
-    public BaseAttributesData BaseAttributes;
+    public BioInfoData Bio { get; }
+    public BaseClassData ClassData { get; }
+    public BaseAttributesData BaseAttributes { get; }
     
     public CharacterData(BioInfoData bio, BaseClassData classData, BaseAttributesData baseAttributes)
     {

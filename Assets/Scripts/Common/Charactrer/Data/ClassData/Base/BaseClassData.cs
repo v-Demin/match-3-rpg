@@ -1,6 +1,6 @@
 public class BaseClassData
 {
-    public ClassId ClassId;
+    public ClassId ClassId { get; }
 
     public BaseClassData(ClassId classId)
     {

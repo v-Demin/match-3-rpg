@@ -1,6 +1,6 @@
 public class BioInfoData
 {
-    public string Name;
+    public string Name { get; }
         
     public BioInfoData(string name)
     {
