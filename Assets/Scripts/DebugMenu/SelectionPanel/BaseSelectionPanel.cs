@@ -36,8 +36,10 @@ public class BaseSelectionPanel : MonoBehaviour
 
         var baseAttributes = new BaseAttributesData(_healthInput.MaxValue, _manaInput.MaxValue);
         var maxAttributes = new BaseAttributesData(_healthInput.BaseValue, _manaInput.BaseValue);
+
+        var visual = new VisualData("");
         
-        return new CharacterData(bio, classInfo, baseAttributes, maxAttributes);
+        return new CharacterData(bio, classInfo, baseAttributes, maxAttributes, visual);
     }
 
     public void SelectPanel()
