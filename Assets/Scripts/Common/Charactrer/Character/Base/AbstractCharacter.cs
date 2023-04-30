@@ -14,11 +14,11 @@ public abstract class AbstractCharacter : MonoBehaviour
 
     protected virtual void AttachEverything()
     {
-        AttachBio(Data.Bio);
+        // AttachBio(Data.Bio);
         AttachClass(Data.ClassData);
-        AttachMaxAttributes(Data.MaxAttributes);
-        AttachBaseAttributes(Data.BaseAttributes);
-        AttachVisual(Data.VisualData);
+        // AttachMaxAttributes(Data.MaxAttributes);
+        // AttachBaseAttributes(Data.BaseAttributes);
+        // AttachVisual(Data.VisualData);
     }
 
     protected abstract void AttachBio(BioInfoData bio);

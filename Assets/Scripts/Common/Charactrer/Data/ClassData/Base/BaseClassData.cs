@@ -1,8 +1,8 @@
-public class BaseClassData
+public abstract class BaseClassData
 {
     public ClassId ClassId { get; }
 
-    public BaseClassData(ClassId classId)
+    protected BaseClassData(ClassId classId)
     {
         ClassId = classId;
     }

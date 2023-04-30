@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -11,7 +9,8 @@ public class BattleSceneController : MonoBehaviour
     
     [SerializeField] private BattleCharacter _player;
     [SerializeField] private BattleCharacter _enemy;
-    [SerializeField] private BattleField _field;
+    [SerializeField] private BattleField _battleField;
+    [SerializeField] private CrystalField _crystalField;
     
     public BattleData Data { get; private set; }
 
@@ -29,8 +28,9 @@ public class BattleSceneController : MonoBehaviour
 
     private void InitAll()
     {
-        //_player.Init(Data.PlayerData);
-        //_enemy.Init(Data.EnemyData);
-        _field.Init(Data.FieldData);
+        _player.Init(Data.PlayerData);
+        _enemy.Init(Data.EnemyData);
+        _battleField.Init(Data.FieldData);
+        _crystalField.Init();
     }
 }

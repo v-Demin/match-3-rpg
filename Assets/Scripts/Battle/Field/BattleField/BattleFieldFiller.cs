@@ -9,18 +9,18 @@ public class BattleFieldFiller : MonoBehaviour
     [SerializeField] private GridLayoutGroup _grid;
     [SerializeField] private Transform _contentRoot;
     
-    public List<BattleFieldCell> FillGrid(int x, int y)
+    public BattleFieldCell[,] FillGrid(int x, int y)
     {
         _grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
         _grid.constraintCount = x;
         
-        var toReturn = new List<BattleFieldCell>(x * y);
+        var toReturn = new BattleFieldCell[x, y];
         
         for (var j = 0; j < y; j++)
         {
             for (var i = 0; i < x; i++)
             {
-                toReturn.Add(CreateCell(i, j));
+                toReturn[i, j] = CreateCell(i, j);
             }
         }
 

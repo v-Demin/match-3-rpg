@@ -1,6 +1,6 @@
 public abstract class BaseCharacter<T> : AbstractCharacter where T : AbstractEventProvider
 {
-    public T EventProvider;
+    public T EventProvider { get; protected set; }
 
     protected virtual void Awake()
     {
