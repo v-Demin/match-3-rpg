@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 public class BattleSceneController : MonoBehaviour
@@ -16,14 +17,20 @@ public class BattleSceneController : MonoBehaviour
 
     private void Start()
     {
+        if (_provideService.Data == null)
+        {
+            SceneManager.LoadScene("DebugModeScreen");
+            return;
+        }
+        
         Data = _provideService.Data;
         InitAll();
     }
 
     private void InitAll()
     {
-        _player.Init(Data.PlayerData);
-        _enemy.Init(Data.EnemyData);
+        //_player.Init(Data.PlayerData);
+        //_enemy.Init(Data.EnemyData);
         _field.Init(Data.FieldData);
     }
 }
