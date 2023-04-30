@@ -22,7 +22,7 @@ public class CrystalFieldFiller : MonoBehaviour
             for (var i = 0; i < X; i++)
             {
                 toReturn[i, j] = CreateCrystal(Crystal.ShowingType.Fall).Init(new Vector2Int(i, j));
-                toReturn[i, j].transform.position = _battleField.Сells[i, j].transform.position;
+                toReturn[i, j].transform.position = _battleField.Cells[i, j].transform.position;
             }
         }
         

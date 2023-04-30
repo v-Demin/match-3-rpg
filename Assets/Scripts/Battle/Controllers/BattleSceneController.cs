@@ -29,7 +29,7 @@ public class BattleSceneController : MonoBehaviour
     private void InitAll()
     {
         _player.Init(Data.PlayerData);
-        _enemy.Init(Data.EnemyData);
+        //_enemy.Init(Data.EnemyData);
         _battleField.Init(Data.FieldData);
         _crystalField.Init();
     }

@@ -13,15 +13,15 @@ public class BattleField : MonoBehaviour
 
     [SerializeField] private BattleFieldFiller _filler;
     
-    public BattleFieldCell[,] Сells { get; private set; }
+    public BattleFieldCell[,] Cells { get; private set; }
     public BattleFieldData Data { get; private set; }
     
     public void Init(BattleFieldData fieldData)
     {
         Data = fieldData;
-        Сells = _filler.FillGrid(Data.FieldSize.x, Data.FieldSize.y);
+        Cells = _filler.FillGrid(Data.FieldSize.x, Data.FieldSize.y);
 
-        foreach (var cell in Сells)
+        foreach (var cell in Cells)
         {
             cell.Clicked += (data, i) => CellClicked?.Invoke(data, i);
             cell.DragStarted += (data, i) => CellDragStarted?.Invoke(data, i);
