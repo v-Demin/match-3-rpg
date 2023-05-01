@@ -24,6 +24,11 @@ public class AlchemistBattleFieldControls : AbstractBattleFieldControls
         throw new System.NotImplementedException();
     }
 
+    protected override void OnCellExited(PointerEventData data, Vector2Int index)
+    {
+        throw new System.NotImplementedException();
+    }
+
     protected override void OnCellDroppedOn(PointerEventData data, Vector2Int targetIndex, Vector2Int droppedIndex)
     {
         throw new System.NotImplementedException();

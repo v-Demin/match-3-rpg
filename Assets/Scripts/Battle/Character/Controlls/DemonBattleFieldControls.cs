@@ -7,17 +7,18 @@ public class DemonBattleFieldControls : AbstractBattleFieldControls
 
     protected override void OnCellClicked(PointerEventData data, Vector2Int index)
     {
+        if (IsSelected(index))
+        {
+            SelectedIndex = null;
+            return;
+        }
+        
         if(IsNotInteractable(index)) return;
-
+        if(SelectedIndex != null && !IsSettable(index)) return;
+        
         if (SelectedIndex == null)
         {
             SelectedIndex = index;
-            return;
-        }
-
-        if (SelectedIndex == index)
-        {
-            SelectedIndex = null;
             return;
         }
 
@@ -49,12 +50,20 @@ public class DemonBattleFieldControls : AbstractBattleFieldControls
     protected override void OnCellDroppedOn(PointerEventData data, Vector2Int targetIndex, Vector2Int droppedIndex)
     {
         if(IsNotInteractable(droppedIndex) || !IsSettable(targetIndex)) return;
-        SelectedIndex = null;
         CrystalField.SwitchCrystals(targetIndex, droppedIndex);
         CrystalField.GetCrystal(targetIndex).ChangeState(Crystal.ConditionState.Cursed);
         CrystalField.GetCrystal(droppedIndex).ChangeState(Crystal.ConditionState.Cursed);
+        SelectedIndex = null;
     }
+    
+    #endregion
 
+    #region NotUsed
+    
+    protected override void OnCellExited(PointerEventData data, Vector2Int index)
+    {
+    }
+    
     #endregion
 
     #region Predicates

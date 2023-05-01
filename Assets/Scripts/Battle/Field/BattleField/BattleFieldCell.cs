@@ -5,12 +5,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class BattleFieldCell : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class BattleFieldCell : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerExitHandler
 {
     public event Action<PointerEventData, Vector2Int> Clicked;
     public event Action<PointerEventData, Vector2Int> DragStarted;
     public event Action<PointerEventData, Vector2Int> Dragged;
     public event Action<PointerEventData, Vector2Int> DragEnded;
+    public event Action<PointerEventData, Vector2Int> Exited;
     public event Action<PointerEventData, Vector2Int, Vector2Int> DroppedOn;
 
     [SerializeField] private TextMeshProUGUI _textMesh;
@@ -53,6 +54,11 @@ public class BattleFieldCell : MonoBehaviour, IPointerClickHandler, IBeginDragHa
     {
         DragEnded?.Invoke(eventData, _index);
     }
+    
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Exited?.Invoke(eventData, _index);
+    }
 
     public void OnDrop(PointerEventData eventData)
     {
@@ -80,4 +86,5 @@ public class BattleFieldCell : MonoBehaviour, IPointerClickHandler, IBeginDragHa
     }
 
     #endregion
+
 }

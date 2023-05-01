@@ -27,6 +27,7 @@ public abstract class AbstractBattleFieldControls : MonoBehaviour
         BattleField.CellDragStarted += OnCellDragStarted;
         BattleField.CellDragged += OnCellDragged;
         BattleField.CellDragEnded += OnCellDragEnded;
+        BattleField.CellExit += OnCellExited;
         BattleField.CellDroppedOn += OnCellDroppedOn;
 
         Character = character;
@@ -38,11 +39,15 @@ public abstract class AbstractBattleFieldControls : MonoBehaviour
     protected abstract void OnCellDragStarted(PointerEventData data, Vector2Int index);
     protected abstract void OnCellDragged(PointerEventData data, Vector2Int index);
     protected abstract void OnCellDragEnded(PointerEventData data, Vector2Int index);
+    protected abstract void OnCellExited(PointerEventData data, Vector2Int index);
     protected abstract void OnCellDroppedOn(PointerEventData data, Vector2Int targetIndex, Vector2Int droppedIndex);
 
     protected virtual bool IsSelected(Vector2Int index) => SelectedIndex != null && index.Equals(SelectedIndex.Value);
     protected virtual bool IsBase(Vector2Int index) => true;
-    protected virtual bool IsInteractable(Vector2Int index) => CrystalField.Cells[index.x, index.y].CurrentConditionState != Crystal.ConditionState.Cursed;
+
+    protected virtual bool IsInteractable(Vector2Int index) => index.x >= 0 && index.x < BattleField.Cells.GetLength(0) &&
+                                                               index.y >= 0 && index.y < BattleField.Cells.GetLength(1) &&
+                                                               CrystalField.Cells[index.x, index.y].CurrentConditionState != Crystal.ConditionState.Cursed;
     protected virtual bool IsNotInteractable(Vector2Int index) => IsInteractable(index) == false;
     protected abstract bool IsSettable(Vector2Int index);
 
