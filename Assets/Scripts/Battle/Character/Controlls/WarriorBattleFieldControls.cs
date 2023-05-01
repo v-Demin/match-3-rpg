@@ -27,4 +27,9 @@ public class WarriorBattleFieldControls : AbstractBattleFieldControls
     {
         throw new System.NotImplementedException();
     }
+
+    protected override bool IsSettable(Vector2Int index)
+    {
+        throw new System.NotImplementedException();
+    }
 }

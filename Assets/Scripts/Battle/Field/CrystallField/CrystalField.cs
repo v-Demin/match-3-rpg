@@ -9,6 +9,11 @@ public class CrystalField : MonoBehaviour
 
     public Crystal[,] Cells { get; private set; }
 
+    public Crystal GetCrystal(Vector2Int index)
+    {
+        return Cells[index.x, index.y];
+    }
+
     public void Init()
     {
         DOVirtual.DelayedCall(0.01f, () => Cells = _filler.FillField());

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,11 +12,12 @@ public class BattleFieldCell : MonoBehaviour, IPointerClickHandler, IBeginDragHa
     public event Action<PointerEventData, Vector2Int> Dragged;
     public event Action<PointerEventData, Vector2Int> DragEnded;
     public event Action<PointerEventData, Vector2Int, Vector2Int> DroppedOn;
-    
-    private Vector2Int _index;
 
     [SerializeField] private TextMeshProUGUI _textMesh;
+    [SerializeField] private List<StateInfo> _stateInfos;
 
+    private Vector2Int _index;
+    
     public BattleFieldCell Init(Vector2Int index)
     {
         _index = index;
@@ -22,6 +25,14 @@ public class BattleFieldCell : MonoBehaviour, IPointerClickHandler, IBeginDragHa
         _textMesh.text = index.ToString();
         return this;
     }
+
+    public void ChangeState(SelectionState selectionState)
+    {
+        _stateInfos.ForEach(info => info.StateRoot.SetActive(false));
+        _stateInfos.FirstOrDefault(info => info.selectionState == selectionState).StateRoot.SetActive(true);
+    }
+    
+    #region Pointers
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -47,4 +58,26 @@ public class BattleFieldCell : MonoBehaviour, IPointerClickHandler, IBeginDragHa
     {
         DroppedOn?.Invoke(eventData, _index, eventData.pointerDrag.GetComponent<BattleFieldCell>()._index);
     }
+
+    #endregion
+
+    #region InnerClasses
+
+    public enum SelectionState
+    {
+        Base = 0,
+        Selected = 1,
+        Interactable = 2,
+        NotInteractable = 3,
+        Settable = 4
+    }
+
+    [System.Serializable]
+    private class StateInfo
+    {
+        public SelectionState selectionState;
+        public GameObject StateRoot;
+    }
+
+    #endregion
 }
