@@ -71,10 +71,10 @@ public class BattleFieldCell : MonoBehaviour, IPointerClickHandler, IBeginDragHa
 
     public enum SelectionState
     {
-        Base = 0,
+        NotInteractable = 0,
+
         Selected = 1,
-        Interactable = 2,
-        NotInteractable = 3,
+        Selectable = 2,
         Settable = 4
     }
 

@@ -22,7 +22,6 @@ public abstract class AbstractBattleFieldControls : MonoBehaviour
 
     public AbstractBattleFieldControls Init(BattleCharacter character)
     {
-        $"Я заиничен {GetType()} к персонажу {character.name}".Log(Color.black);
         BattleField.CellClicked += OnCellClicked;
         BattleField.CellDragStarted += OnCellDragStarted;
         BattleField.CellDragged += OnCellDragged;
@@ -31,7 +30,7 @@ public abstract class AbstractBattleFieldControls : MonoBehaviour
         BattleField.CellDroppedOn += OnCellDroppedOn;
 
         Character = character;
-        
+
         return this;
     }
 
@@ -43,21 +42,20 @@ public abstract class AbstractBattleFieldControls : MonoBehaviour
     protected abstract void OnCellDroppedOn(PointerEventData data, Vector2Int targetIndex, Vector2Int droppedIndex);
 
     protected virtual bool IsSelected(Vector2Int index) => SelectedIndex != null && index.Equals(SelectedIndex.Value);
-    protected virtual bool IsBase(Vector2Int index) => true;
-
-    protected virtual bool IsInteractable(Vector2Int index) => index.x >= 0 && index.x < BattleField.Cells.GetLength(0) &&
-                                                               index.y >= 0 && index.y < BattleField.Cells.GetLength(1) &&
-                                                               CrystalField.Cells[index.x, index.y].CurrentConditionState != Crystal.ConditionState.Cursed;
-    protected virtual bool IsNotInteractable(Vector2Int index) => IsInteractable(index) == false;
+    protected virtual bool IsValidMove(Vector2Int index) => index.x >= 0 && index.x < BattleField.Cells.GetLength(0) &&
+                                                            index.y >= 0 && index.y < BattleField.Cells.GetLength(1);    
+    protected virtual bool IsSelectable(Vector2Int index) => IsValidMove(index);
     protected abstract bool IsSettable(Vector2Int index);
+    
+    protected virtual bool IsNotInteractable(Vector2Int index) => !IsSettable(index) && !IsSelected(index) && !IsSelectable(index) || CrystalField.Cells[index.x, index.y].CurrentConditionState == Crystal.ConditionState.Cursed;
+
 
     protected virtual void RefreshField()
     {
-        MarkAllCellsAs(IsBase, BattleFieldCell.SelectionState.Base);
-        MarkAllCellsAs(IsInteractable, BattleFieldCell.SelectionState.Interactable);
-        MarkAllCellsAs(IsNotInteractable, BattleFieldCell.SelectionState.NotInteractable);
+        MarkAllCellsAs(IsSelectable, BattleFieldCell.SelectionState.Selectable);
         MarkAllCellsAs(IsSettable, BattleFieldCell.SelectionState.Settable);
         MarkAllCellsAs(IsSelected, BattleFieldCell.SelectionState.Selected);
+        MarkAllCellsAs(IsNotInteractable, BattleFieldCell.SelectionState.NotInteractable);
     }
 
 

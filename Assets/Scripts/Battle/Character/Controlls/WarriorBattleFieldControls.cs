@@ -2,32 +2,11 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class WarriorBattleFieldControls : AbstractBattleFieldControls
+public class WarriorBattleFieldControls : BaseBattleFieldControls
 {
     private const float SENSITIVITY = 1f;
  
     #region CellControls
-
-    protected override void OnCellClicked(PointerEventData data, Vector2Int index)
-    {
-        if (IsSelected(index))
-        {
-            SelectedIndex = null;
-            return;
-        }
-        
-        if(IsNotInteractable(index)) return;
-        if(SelectedIndex != null && !IsSettable(index)) return;
-        
-        if (SelectedIndex == null)
-        {
-            SelectedIndex = index;
-            return;
-        }
-
-        CrystalField.SwitchCrystals(SelectedIndex.Value, index);
-        SelectedIndex = null;
-    }
 
     protected override void OnCellDragStarted(PointerEventData data, Vector2Int index)
     {
@@ -49,6 +28,7 @@ public class WarriorBattleFieldControls : AbstractBattleFieldControls
             (Vector3ShiftUtil.CheckIsUpShifted(cell, drag) ? 1 : 0) +
             (Vector3ShiftUtil.CheckIsDownShifted(cell, drag) ? -1 : 0));
 
+        if (!IsValidMove(endIndex)) return;
         if (!IsSettable(endIndex)) return;
         
         SelectedIndex = null;
@@ -81,11 +61,13 @@ public class WarriorBattleFieldControls : AbstractBattleFieldControls
 
     #region Predicates
 
-    protected override bool IsSettable(Vector2Int index) => IsInteractable(index) &&
-                                                            SelectedIndex != null &&
-                                                            ((Math.Abs(SelectedIndex.Value.x - index.x) == 1) &&
-                                                             (Math.Abs(SelectedIndex.Value.y - index.y) == 0) ||
-                                                             (Math.Abs(SelectedIndex.Value.x - index.x) == 0) &&
-                                                             (Math.Abs(SelectedIndex.Value.y - index.y) == 1));
+    protected override bool IsSettable(Vector2Int index) =>
+        SelectedIndex != null &&
+        CrystalField.GetCrystal(index).CurrentConditionState != Crystal.ConditionState.Cursed &&
+        ((Math.Abs(SelectedIndex.Value.x - index.x) == 1) &&
+         (Math.Abs(SelectedIndex.Value.y - index.y) == 0) ||
+         (Math.Abs(SelectedIndex.Value.x - index.x) == 0) &&
+         (Math.Abs(SelectedIndex.Value.y - index.y) == 1));
+
     #endregion
 }

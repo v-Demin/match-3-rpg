@@ -1,31 +1,18 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DemonBattleFieldControls : AbstractBattleFieldControls
+public class DemonBattleFieldControls : BaseBattleFieldControls
 {
     #region CellControls
 
     protected override void OnCellClicked(PointerEventData data, Vector2Int index)
     {
-        if (IsSelected(index))
+        OnCellClickedInner(data, index, () =>
         {
-            SelectedIndex = null;
-            return;
-        }
-        
-        if(IsNotInteractable(index)) return;
-        if(SelectedIndex != null && !IsSettable(index)) return;
-        
-        if (SelectedIndex == null)
-        {
-            SelectedIndex = index;
-            return;
-        }
-
-        CrystalField.SwitchCrystals(SelectedIndex.Value, index);
-        CrystalField.GetCrystal(SelectedIndex.Value).ChangeState(Crystal.ConditionState.Cursed);
-        CrystalField.GetCrystal(index).ChangeState(Crystal.ConditionState.Cursed);
-        SelectedIndex = null;
+            CrystalField.SwitchCrystals(SelectedIndex.Value, index);
+            CrystalField.GetCrystal(SelectedIndex.Value).ChangeState(Crystal.ConditionState.Cursed);
+            CrystalField.GetCrystal(index).ChangeState(Crystal.ConditionState.Cursed);
+        });
     }
 
 

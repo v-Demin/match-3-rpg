@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: <CrystalType>k__BackingField
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5781807326828128008, guid: 5b50df27e0cfa1d43b1782beb3062a7c, type: 3}
+      propertyPath: <CurrentConditionState>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5781807326828128009, guid: 5b50df27e0cfa1d43b1782beb3062a7c, type: 3}
       propertyPath: m_Color.b
       value: 1
