@@ -14,6 +14,8 @@ public abstract class BaseBattleFieldControls : AbstractBattleFieldControls
 
     protected void OnCellClickedInner(PointerEventData data, Vector2Int index, Action onCorrectClick)
     {
+        if(IsNotInteractable(index)) return;
+
         if (IsSelected(index))
         {
             SelectedIndex = null;
@@ -25,8 +27,6 @@ public abstract class BaseBattleFieldControls : AbstractBattleFieldControls
             SelectedIndex = index;
             return;
         }
-
-        if(IsNotInteractable(index)) return;
 
         if(SelectedIndex != null && !IsSettable(index)) return;
         
