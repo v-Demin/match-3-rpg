@@ -12,6 +12,7 @@ public class BaseSelectionPanel : MonoBehaviour
     [SerializeField] private SliderParameter _healthInput;
     [SerializeField] private SliderParameter _manaInput;
     [SerializeField] private SliderParameter _levelInput;
+    [SerializeField] private SliderParameter _movesInput;
 
     [Header("Settings")]
     [SerializeField] private List<ClassSelectionInfo> _availableClasses;
@@ -34,12 +35,14 @@ public class BaseSelectionPanel : MonoBehaviour
         var classInfo = _availableClasses
                 .FirstOrDefault(info => info.ClassId.Equals(GetClassIdFromSelection)).Panel.GetClassData;
 
-        var baseAttributes = new BaseAttributesData(_healthInput.MaxValue, _manaInput.MaxValue);
-        var maxAttributes = new BaseAttributesData(_healthInput.BaseValue, _manaInput.BaseValue);
+        var baseAttributes = new BaseAttributesData(_healthInput.BaseValue, _manaInput.BaseValue);
+        var maxAttributes = new BaseAttributesData(_healthInput.MaxValue, _manaInput.MaxValue);
 
         var visual = new VisualData("");
+
+        var moves = _movesInput.BaseValue;
         
-        return new CharacterData(bio, classInfo, baseAttributes, maxAttributes, visual);
+        return new CharacterData(bio, classInfo, baseAttributes, maxAttributes, visual, moves);
     }
 
     public void SelectPanel()
