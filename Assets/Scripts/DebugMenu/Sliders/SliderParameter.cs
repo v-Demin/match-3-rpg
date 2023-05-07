@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,11 @@ public class SliderParameter : MonoBehaviour
 
     public int MaxValue => int.Parse(_maxValueField.text);
     public int BaseValue => Mathf.RoundToInt(MaxValue * _baseValueSlider.value);
+
+    private void Start()
+    {
+        UpdateParameters();
+    }
 
     public void UpdateParameters()
     {
