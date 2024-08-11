@@ -29,6 +29,8 @@ public abstract class AbstractBattleFieldControls : MonoBehaviour
         BattleField.CellExit += OnCellExited;
         BattleField.CellDroppedOn += OnCellDroppedOn;
 
+        CrystalField.OnFilled += RefreshField;
+
         Character = character;
 
         return this;

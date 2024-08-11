@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 using Zenject;
@@ -8,7 +9,8 @@ public class CrystalField : MonoBehaviour
     [SerializeField] private CrystalFieldFiller _filler;
 
     public Crystal[,] Cells { get; private set; }
-
+    public event Action OnFilled;
+    
     public Crystal GetCrystal(Vector2Int index)
     {
         return Cells[index.x, index.y];
@@ -16,7 +18,11 @@ public class CrystalField : MonoBehaviour
 
     public void Init()
     {
-        DOVirtual.DelayedCall(0.01f, () => Cells = _filler.FillField());
+        DOVirtual.DelayedCall(0.01f, () =>
+        {
+            Cells = _filler.FillField();
+            OnFilled?.Invoke();
+        });
     }
 
     public void MakeCrystalFollowMouse(Vector2Int index)
