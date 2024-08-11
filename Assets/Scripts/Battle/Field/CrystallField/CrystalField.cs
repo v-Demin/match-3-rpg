@@ -38,8 +38,8 @@ public class CrystalField : MonoBehaviour
     {
         Cells[index.x, index.y].transform.SetAsLastSibling();
         Cells[index2.x, index2.y].transform.SetAsLastSibling();
-        Cells[index.x, index.y].transform.DOMove(_battleField.Cells[index2.x, index2.y].transform.position, 1f).SetEase(Ease.InOutQuint);
-        Cells[index2.x, index2.y].transform.DOMove(_battleField.Cells[index.x, index.y].transform.position, 1f).SetEase(Ease.InOutQuint);
+        Cells[index.x, index.y].transform.DOMove(_battleField.Cells[index2.x, index2.y].transform.position, 0.5f).SetEase(Ease.InOutQuint);
+        Cells[index2.x, index2.y].transform.DOMove(_battleField.Cells[index.x, index.y].transform.position, 0.5f).SetEase(Ease.InOutQuint);
 
         var c = Cells[index.x, index.y];
         var c2 = Cells[index2.x, index2.y];
