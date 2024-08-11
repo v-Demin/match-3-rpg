@@ -25,8 +25,8 @@ public class CrystalFieldFiller : MonoBehaviour
         {
             for (var y = 0; y < height; y++)
             {
-                toReturn[y, x] = CreateCrystal(Crystal.ShowingType.Fall, typeField[y, x]).Init(new Vector2Int(y, x));
-                toReturn[y, x].transform.position = _battleField.Cells[y, x].transform.position;
+                toReturn[x, y] = CreateCrystal(Crystal.ShowingType.Fall, typeField[x, y]).Init(new Vector2Int(x, y));
+                toReturn[x, y].transform.position = _battleField.Cells[x, y].transform.position;
             }
         }
         
