@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,17 +16,48 @@ public class CrystalFieldFiller : MonoBehaviour
 
     public Crystal[,] FillField()
     {
+        var width = _battleField.Data.FieldSize.x;
+        var height = _battleField.Data.FieldSize.y;
+        var typeField = GenerateTypeField();
         var toReturn = new Crystal[_battleField.Data.FieldSize.x, _battleField.Data.FieldSize.y];
         
-        for (var j = 0; j < Y; j++)
+        for (var x = 0; x < width; x++)
         {
-            for (var i = 0; i < X; i++)
+            for (var y = 0; y < height; y++)
             {
-                toReturn[i, j] = CreateCrystal(Crystal.ShowingType.Fall).Init(new Vector2Int(i, j));
-                toReturn[i, j].transform.position = _battleField.Cells[i, j].transform.position;
+                toReturn[y, x] = CreateCrystal(Crystal.ShowingType.Fall, typeField[y, x]).Init(new Vector2Int(y, x));
+                toReturn[y, x].transform.position = _battleField.Cells[y, x].transform.position;
             }
         }
         
+        return toReturn;
+    }
+
+    private CrystalType[,] GenerateTypeField()
+    {
+        var width = _battleField.Data.FieldSize.x;
+        var height = _battleField.Data.FieldSize.y;
+        var toReturn = new CrystalType[width, height];
+
+        var crystalTypes = Enum.GetValues(typeof(CrystalType));
+        var random = new System.Random();
+
+        for (var x = 0; x < width; x++)
+        {
+            for (var y = 0; y < height; y++)
+            {
+                CrystalType newType;
+                do
+                {
+                    newType = (CrystalType)crystalTypes.GetValue(random.Next(crystalTypes.Length));
+                }
+                while ((x >= 2 && newType == toReturn[x - 1, y] && newType == toReturn[x - 2, y]) ||
+                       (y >= 2 && newType == toReturn[x, y - 1] && newType == toReturn[x, y - 2]));
+
+                toReturn[x, y] = newType;
+            }
+        }
+
         return toReturn;
     }
 
@@ -36,7 +68,7 @@ public class CrystalFieldFiller : MonoBehaviour
     
     public Crystal CreateCrystal(Crystal.ShowingType showingType, CrystalType type)
     {
-        return Instantiate<Crystal>(_infos.FirstOrDefault(info => info.Type.Equals(type)).Prefab, _contentRoot);
+        return Instantiate(_infos.FirstOrDefault(info => info.Type.Equals(type)).Prefab, _contentRoot);
     }
 
     [System.Serializable]
