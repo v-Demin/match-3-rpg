@@ -21,6 +21,11 @@ public class Crystal : MonoBehaviour
     {
         CurrentConditionState = state;
     }
+
+    public void Release()
+    {
+        
+    }
         
     public enum ShowingType
     {

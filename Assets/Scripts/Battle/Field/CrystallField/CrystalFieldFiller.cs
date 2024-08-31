@@ -33,6 +33,7 @@ public class CrystalFieldFiller : MonoBehaviour
         return toReturn;
     }
 
+    //[Todo]: Рефакторинг за ChatGPT
     private CrystalType[,] GenerateTypeField()
     {
         var width = _battleField.Data.FieldSize.x;
