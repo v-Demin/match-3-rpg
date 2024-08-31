@@ -9,7 +9,7 @@ public class DemonBattleFieldControls : BaseBattleFieldControls
     {
         OnCellClickedInner(data, index, () =>
         {
-            CrystalField.SwitchCrystals(SelectedIndex.Value, index);
+            CrystalField.SwitchCrystals(SelectedIndex.Value, index, SubmitAction);
             CrystalField.GetCrystal(SelectedIndex.Value).ChangeState(Crystal.ConditionState.Cursed);
             CrystalField.GetCrystal(index).ChangeState(Crystal.ConditionState.Cursed);
         });
@@ -37,7 +37,7 @@ public class DemonBattleFieldControls : BaseBattleFieldControls
     protected override void OnCellDroppedOn(PointerEventData data, Vector2Int targetIndex, Vector2Int droppedIndex)
     {
         if(IsNotInteractable(droppedIndex) || !IsSettable(targetIndex)) return;
-        CrystalField.SwitchCrystals(targetIndex, droppedIndex);
+        CrystalField.SwitchCrystals(targetIndex, droppedIndex, SubmitAction);
         CrystalField.GetCrystal(targetIndex).ChangeState(Crystal.ConditionState.Cursed);
         CrystalField.GetCrystal(droppedIndex).ChangeState(Crystal.ConditionState.Cursed);
         SelectedIndex = null;

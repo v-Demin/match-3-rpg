@@ -33,8 +33,7 @@ public class WarriorBattleFieldControls : BaseBattleFieldControls
         
         SelectedIndex = null;
 
-        CrystalField.SwitchCrystals(index, endIndex);
-
+        CrystalField.SwitchCrystals(index, endIndex, SubmitAction);
     }
 
     protected override void OnCellDragEnded(PointerEventData data, Vector2Int index)

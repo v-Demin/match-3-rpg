@@ -296,6 +296,7 @@ MonoBehaviour:
   _enemy: {fileID: 1959737149}
   _battleField: {fileID: 1705901877}
   _crystalField: {fileID: 1092927135584433425}
+  _roundsController: {fileID: 1807835556}
 --- !u!1 &1003054748
 GameObject:
   m_ObjectHideFlags: 0
@@ -707,6 +708,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1807835555}
+  - component: {fileID: 1807835556}
   m_Layer: 0
   m_Name: RoundsController
   m_TagString: Untagged
@@ -729,6 +731,18 @@ Transform:
   m_Father: {fileID: 1856226928}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1807835556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1807835554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e74b3f43673d0604d8032012b3fb84eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1856226927
 GameObject:
   m_ObjectHideFlags: 0

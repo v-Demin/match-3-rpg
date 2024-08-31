@@ -4,7 +4,7 @@ public class BattleCharacter : BaseCharacter<BattleCharacterEventProvider>
 {
     [Inject] private readonly BattleFieldModelControllCreator _creator;
 
-    private AbstractBattleFieldControls _controls;
+    public AbstractBattleFieldControls Controls;
     
     protected override void CreateEventProvider()
     {
@@ -18,7 +18,7 @@ public class BattleCharacter : BaseCharacter<BattleCharacterEventProvider>
 
     protected override void AttachClass(BaseClassData classData)
     {
-        _controls = _creator.GetControls(classData.ClassId)
+        Controls = _creator.GetControls(classData.ClassId)
             .Init(this);
     }
 

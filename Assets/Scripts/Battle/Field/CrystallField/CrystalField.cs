@@ -7,11 +7,11 @@ using Zenject;
 
 public class CrystalField : MonoBehaviour
 {
+    private const float SWITCHING_CRYSTALS_DURATION = 0.5f;
     [Inject] private readonly BattleField _battleField;
     [SerializeField] private CrystalFieldFiller _filler;
 
     public Crystal[,] Cells { get; private set; }
-    public event Action OnFilled;
     
     public Crystal GetCrystal(Vector2Int index)
     {
@@ -20,11 +20,7 @@ public class CrystalField : MonoBehaviour
 
     public void Init()
     {
-        DOVirtual.DelayedCall(0.01f, () =>
-        {
-            Cells = _filler.FillField();
-            OnFilled?.Invoke();
-        });
+        Cells = _filler.FillField();
     }
 
     public void MakeCrystalFollowMouse(Vector2Int index)
@@ -36,12 +32,12 @@ public class CrystalField : MonoBehaviour
             -1f);
     }
 
-    public void SwitchCrystals(Vector2Int index, Vector2Int index2)
+    public void SwitchCrystals(Vector2Int index, Vector2Int index2, Action OnComplete = null)
     {
         Cells[index.x, index.y].transform.SetAsLastSibling();
         Cells[index2.x, index2.y].transform.SetAsLastSibling();
-        Cells[index.x, index.y].transform.DOMove(_battleField.Cells[index2.x, index2.y].transform.position, 0.5f).SetEase(Ease.InOutQuint);
-        Cells[index2.x, index2.y].transform.DOMove(_battleField.Cells[index.x, index.y].transform.position, 0.5f).SetEase(Ease.InOutQuint);
+        Cells[index.x, index.y].transform.DOMove(_battleField.Cells[index2.x, index2.y].transform.position, SWITCHING_CRYSTALS_DURATION).SetEase(Ease.InOutQuint);
+        Cells[index2.x, index2.y].transform.DOMove(_battleField.Cells[index.x, index.y].transform.position, SWITCHING_CRYSTALS_DURATION).SetEase(Ease.InOutQuint);
 
         var c = Cells[index.x, index.y];
         var c2 = Cells[index2.x, index2.y];
@@ -49,6 +45,11 @@ public class CrystalField : MonoBehaviour
         c2.Init(index);
         Cells[index2.x, index2.y] = c;
         Cells[index.x, index.y] = c2;
+
+        DOVirtual.DelayedCall(SWITCHING_CRYSTALS_DURATION, () =>
+        {
+            OnComplete?.Invoke();
+        });
     }
 
     public void MoveBack(Vector2Int index)

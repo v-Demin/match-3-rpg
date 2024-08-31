@@ -8,7 +8,7 @@ public abstract class BaseBattleFieldControls : AbstractBattleFieldControls
     {
         OnCellClickedInner(data, index, () =>
         {
-            CrystalField.SwitchCrystals(SelectedIndex.Value, index);
+            CrystalField.SwitchCrystals(SelectedIndex.Value, index, SubmitAction);
         });
     }
 

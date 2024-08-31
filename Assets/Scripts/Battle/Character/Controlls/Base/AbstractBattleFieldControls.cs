@@ -7,6 +7,8 @@ public abstract class AbstractBattleFieldControls : MonoBehaviour
 {
     [Inject] protected readonly BattleField BattleField;
     [Inject] protected readonly CrystalField CrystalField;
+    public Action OnActionSubmitted;
+
     protected BattleCharacter Character;
 
     private Vector2Int? _selectedIndex;
@@ -20,8 +22,31 @@ public abstract class AbstractBattleFieldControls : MonoBehaviour
         }
     }
 
+    public bool IsActive
+    {
+        set
+        {
+            if (value)
+            {
+                Activate();
+            }
+            else
+            {
+                Deactivate();
+            }
+        }
+    }
+    
     public AbstractBattleFieldControls Init(BattleCharacter character)
     {
+        Character = character;
+        return this;
+    }
+    
+    private void Activate()
+    {
+        $"Активирую {GetType()}".Log(Color.cyan);
+        
         BattleField.CellClicked += OnCellClicked;
         BattleField.CellDragStarted += OnCellDragStarted;
         BattleField.CellDragged += OnCellDragged;
@@ -29,11 +54,19 @@ public abstract class AbstractBattleFieldControls : MonoBehaviour
         BattleField.CellExit += OnCellExited;
         BattleField.CellDroppedOn += OnCellDroppedOn;
 
-        CrystalField.OnFilled += RefreshField;
+        RefreshField();
+    }
 
-        Character = character;
-
-        return this;
+    private void Deactivate()
+    {
+        $"Деактивирую {GetType()}".Log(Color.cyan);
+        
+        BattleField.CellClicked -= OnCellClicked;
+        BattleField.CellDragStarted -= OnCellDragStarted;
+        BattleField.CellDragged -= OnCellDragged;
+        BattleField.CellDragEnded -= OnCellDragEnded;
+        BattleField.CellExit -= OnCellExited;
+        BattleField.CellDroppedOn -= OnCellDroppedOn;
     }
 
     protected abstract void OnCellClicked(PointerEventData data, Vector2Int index);
@@ -51,6 +84,10 @@ public abstract class AbstractBattleFieldControls : MonoBehaviour
     
     protected virtual bool IsNotInteractable(Vector2Int index) => !IsSettable(index) && !IsSelected(index) && !IsSelectable(index) || CrystalField.Cells[index.x, index.y].CurrentConditionState == Crystal.ConditionState.Cursed;
 
+    protected void SubmitAction()
+    {
+        OnActionSubmitted?.Invoke();
+    }
 
     protected virtual void RefreshField()
     {
