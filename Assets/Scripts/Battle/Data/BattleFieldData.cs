@@ -3,10 +3,10 @@ using UnityEngine;
 public class BattleFieldData
 {
     private const int MIN_X_SIZE = 4;
-    private const int MAX_X_SIZE = 7;
+    private const int MAX_X_SIZE = 9;
     
     private const int MIN_Y_SIZE = 4;
-    private const int MAX_Y_SIZE = 7;
+    private const int MAX_Y_SIZE = 9;
     
     public Vector2Int FieldSize { get; }
 
